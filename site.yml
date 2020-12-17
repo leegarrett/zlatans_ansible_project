@@ -1,0 +1,8 @@
+### This is the main playbook
+### Call it with:
+### ansible-playbook --diff site.yml
+
+# Define a playbook for servers 
+- hosts:            server1 # The servers this will run on
+  roles:                    # The roles that will be run
+    - grub
