@@ -6,3 +6,4 @@
 - hosts:            my_dig_ocean.digitalocean.com # The servers this will run on (defined in ./hosts)
   roles:                    # The roles that will be run
     - grub
+    - bootstrap_user

@@ -1,0 +1,56 @@
+#- name: set debconf questions beforehand
+#  become: yes
+#  debconf:
+#    name:       "{{ item.name }}"
+#    question:   "{{ item.question }}"
+#    answer:     "{{ item.answer }}"
+#    vtype:      "{{ item.vtype }}"
+#  loop:
+#    - name:     wireshark-common
+#      question: wireshark-common/install-setuid
+#      answer:   "true"
+#      vtype:    boolean
+#    - name:     console-setup
+#      question: console-setup/fontface47
+#      answer:   TerminusBold
+#      vtype:    string
+#    - name:     console-setup
+#      question: console-setup/fontsize-fb47
+#      answer:   12x24 (framebuffer only)
+#      vtype:    string
+#    - name:     console-setup
+#      question: console-setup/charmap47
+#      answer:   UTF-8
+#      vtype:    string
+#    - name:     console-setup
+#      question: console-setup/codeset47
+#      answer:   "# Latin1 and Latin5 - western Europe and Turkic languages"
+#      vtype:    string
+
+
+- name: Install needed packages
+  become: yes
+  apt:
+    name:
+      - build-essential
+      - fail2ban
+      - git
+      - htop
+      - rsync
+
+- name: Write user config files
+  become: no
+  copy:
+    src:        "user/{{ item.path }}"
+    dest:       "~/{{ item.path }}"
+  loop: "{{ query('filetree', './user/') }}"
+  when: item.state == 'file'
+
+#- name: Template user config files
+#  become: no
+#  template:
+#    src:        "user/{{ item.path }}"
+#    dest:       "~/{{ item.path }}"
+#  no_log: true
+#  loop: "{{ query('filetree', '../templates/user/') }}"
+#  when: item.state == 'file'
