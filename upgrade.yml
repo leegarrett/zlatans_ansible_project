@@ -1,0 +1,11 @@
+## upgrade playbook
+
+- hosts: all
+  tasks:
+    - apt:
+        update_cache:   yes
+        upgrade:        dist
+      environment:
+        APT_LISTCHANGES_FRONTEND:   "none"
+        DEBIAN_FRONTEND: "noninteractive"
+        NEEDRESTART_MODE: "a"
