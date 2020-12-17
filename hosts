@@ -1,0 +1,6 @@
+### ini-style inventory file
+
+## defines a group name
+[digital_ocean]
+# list hostnames here how you'd ssh into it
+my_dig_ocean.digitalocean.com

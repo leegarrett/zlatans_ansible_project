@@ -3,6 +3,6 @@
 ### ansible-playbook --diff site.yml
 
 # Define a playbook for servers 
-- hosts:            server1 # The servers this will run on
+- hosts:            my_dig_ocean.digitalocean.com # The servers this will run on (defined in ./hosts)
   roles:                    # The roles that will be run
     - grub
