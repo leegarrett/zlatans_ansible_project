@@ -71,6 +71,6 @@
 #  loop: "{{ query('filetree', '../templates/user/') }}"
 #  when: item.state == 'file'
 
-
-### TODO:
-# set timezone
+- name: Set timezone
+  timezone:
+    name: Europe/Belgrade
