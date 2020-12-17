@@ -3,7 +3,7 @@
 - name: Configure /etc/default/grub
   template:
       src: etc/default/grub
-      dst: /etc/default/grub
+      dest: /etc/default/grub
 
 - name: Run update-grub
   command: /usr/sbin/update-grub
