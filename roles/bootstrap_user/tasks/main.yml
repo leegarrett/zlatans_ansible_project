@@ -38,13 +38,28 @@
       - htop
       - rsync
 
+- name: Create local user
+  user:
+    name: debiantest
+    password_lock: yes
+    append: yes
+    groups:
+      - sudo
+
+# Test if this works, otherwise use the task below
 - name: Write user config files
   become: no
   copy:
-    src:        "user/{{ item.path }}"
-    dest:       "~/{{ item.path }}"
-  loop: "{{ query('filetree', './user/') }}"
-  when: item.state == 'file'
+    src:        "user/"
+    dest:       "~/"
+
+#- name: Write user config files
+#  become: no
+#  copy:
+#    src:        "user/{{ item.path }}"
+#    dest:       "~/{{ item.path }}"
+#  loop: "{{ query('filetree', './user/') }}"
+#  when: item.state == 'file'
 
 #- name: Template user config files
 #  become: no
