@@ -1,0 +1,50 @@
+haproxy:
+
+    global:
+        chroot:                     /var/lib/haproxy
+        crt-base:                   /etc/ssl/private/
+        group:                      haproxy
+        log:                        127.0.0.1 local2
+        spread-checks:              5   # deviate the timing of checks by 5%
+        ssl-default-bind-options:   no-sslv3 no-tlsv10 no-tls-tickets
+        ssl-default-server-options: no-sslv3 no-tlsv10 no-tls-tickets
+        tune.ssl.default-dh-param:  4096
+        user:                       haproxy
+
+    tcp:
+      defaults:
+          log:                  global
+          mode:                 tcp
+          option:
+            - dontlognull     # hide port scans and other crap
+            - tcplog          # richer logging for TCP connections
+          timeout:
+            check:      15s   # time the server must respond with data after TCP established
+            client:     600s  # inactivity timeout of the connecting client
+            connect:    5s    # TCP SYN timeout to the backend, retries happen every second
+            server:     600s  # timeout after which the backend is considered dead
+
+    http:
+        defaults:
+            errorfile:
+                "400":    /etc/haproxy/errors/400.http
+                "403":    /etc/haproxy/errors/403.http
+                "408":    /etc/haproxy/errors/408.http
+                "500":    /etc/haproxy/errors/500.http
+                "502":    /etc/haproxy/errors/502.http
+                "503":    /etc/haproxy/errors/503.http
+                "504":    /etc/haproxy/errors/504.http
+
+            log:                     global
+            mode:                    http
+            option:
+              - forwardfor
+              - httplog
+              - redispatch              # move session to other backend server if TCP SYN fails
+            #log-format:  "%ci:%cp\\ [%t]\\ %ft\\ %b/%s\\ %Tq/%Tw/%Tc/%Tr/%Tt\\ %ST\\ %B\\ %CC\\ %CS\\ %tsc\\ %ac/%fc/%bc/%sc/%rc\\ %sq/%bq\\ %hr\\ %hs\\ %{+Q}r"
+            timeout:
+              connect:          15s
+              client:            3m
+              server:            3m
+              tunnel:            5m
+              http-keep-alive:  30s
