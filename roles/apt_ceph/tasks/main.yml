@@ -1,0 +1,10 @@
+---
+- name: add ceph apt key
+  apt_key:
+    file:        ceph.asc
+
+- name: Add ceph repository
+  apt_repository:
+    repo: "deb https://download.ceph.com/debian-octopus/ {{ debian_release }} main"
+    filename: ceph
+    update_cache: yes

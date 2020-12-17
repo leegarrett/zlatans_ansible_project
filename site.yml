@@ -2,8 +2,9 @@
 ### Call it with:
 ### ansible-playbook --diff site.yml
 
-# Define a playbook for servers 
+# Define a playbook for servers
 - hosts:            my_dig_ocean.digitalocean.com # The servers this will run on (defined in ./hosts)
   roles:                    # The roles that will be run
     - grub
     - bootstrap_user
+    - apt_ceph
