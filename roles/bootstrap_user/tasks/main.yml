@@ -48,7 +48,8 @@
 
 # Test if this works, otherwise use the task below
 - name: Write user config files
-  become: no
+  become: yes
+  become_user: debiantest
   copy:
     src:        "user/"
     dest:       "~/"
